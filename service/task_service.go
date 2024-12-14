@@ -3,46 +3,29 @@ package service
 import (
 	"github.com/emanueldias01/todolist/model"
 	"github.com/emanueldias01/todolist/repository"
-	"github.com/gin-gonic/gin"
 )
 
-func CreateTask(c *gin.Context){
-	var task model.Task
+func CreateTask(task model.Task ) (model.Task, error){
 
-	if err := c.ShouldBindJSON(task); err != nil{
-		c.JSON(400, gin.H{
-			"message" : "error in should bind JSON",
-		})
-	}
+	var err error
 
-
-
-	if err := model.ValidadeTask(&task); err != nil{
-		c.JSON(400, err.Error())
-	}
-
+	err = model.ValidadeTask(&task)
+	
 	//create task with state pending
 	task.State = "PENDING"
 
 	repository.CreateTask(task)
+
+	return task, err
 }
 
-func FindTaskById(c *gin.Context){
-	id := c.Params.ByName("id")
+func FindTaskById(id string) (model.Task, error){
 
 	task, err := repository.FindTaskById(id)
 
-	if err != nil{
-		c.JSON(404, gin.H{
-			"message" : err.Error(),
-		})
-
-		return
-	}
-
-	c.JSON(200, task)
+	return task, err
 }
 
-func FindAllTasks(c *gin.Context){
-	c.JSON(200, repository.FindAllTasks())
+func FindAllTasks() []model.Task{
+	return repository.FindAllTasks()
 }
