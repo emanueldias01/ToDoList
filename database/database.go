@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 
+	"github.com/emanueldias01/todolist/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,4 +20,6 @@ func DBConect(){
 	if err != nil{
 		log.Fatal(err.Error())
 	}
+
+	DB.AutoMigrate(&model.Task{})
 }
