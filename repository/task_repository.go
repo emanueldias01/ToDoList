@@ -12,7 +12,7 @@ func CreateTask(task model.Task) model.Task{
 	return task
 }
 
-func FindTaskById(id int) (model.Task, error){
+func FindTaskById(id string) (model.Task, error){
 	var task model.Task
 	var err error
 
