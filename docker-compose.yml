@@ -21,7 +21,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=todolist@email.com
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
-      - "8080:80"
+      - "54321:80"
     restart: always
     depends_on:
       - db
