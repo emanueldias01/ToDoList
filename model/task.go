@@ -12,7 +12,7 @@ type Task struct {
 	Name string `json:"name" validate:"nonzero max=30"`
 	Description string `json:"description" validate:"nonzero max=350"`
 	State string `json:"state"`
-	Goal time.Time `json:"goal"`
+	Goal *time.Time `json:"goal"`
 }
 
 func ValidadeTask(t *Task) error{
