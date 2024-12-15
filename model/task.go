@@ -1,22 +1,27 @@
 package model
 
 import (
+	"errors"
 	"time"
 
-	"gopkg.in/validator.v2"
 	"gorm.io/gorm"
 )
 
 type Task struct {
 	gorm.Model
-	Name string `json:"name" validate:"nonzero max=30"`
-	Description string `json:"description" validate:"nonzero max=350"`
+	Name string `json:"name"`
+	Description string `json:"description"`
 	State string `json:"state"`
 	Goal *time.Time `json:"goal"`
 }
 
 func ValidadeTask(t *Task) error{
-	if err := validator.Validate(t); err != nil{
+
+	var (
+		err error
+	)
+	if t.Name == ""{
+		err = errors.New("Name is empty")
 		return err
 	}
 	return nil

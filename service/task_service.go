@@ -9,7 +9,7 @@ func CreateTask(task model.Task ) (model.Task, error){
 
 	var err error
 
-	//err = model.ValidadeTask(&task)
+	err = model.ValidadeTask(&task)
 	
 	//create task with state pending
 	task.State = "PENDING"

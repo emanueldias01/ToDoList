@@ -78,3 +78,28 @@ func TestCreateTaskSucess(t *testing.T){
 
 	defer database.DB.Delete(&task, task.ID)
 }
+
+func TestFindTaskByIdErrorNotFound(t *testing.T){
+	r := SetupRoutes()
+	r.GET("/all", controller.FindAllTasks)
+
+	SetupDB()
+
+	result,err := service.FindTaskById("123123123")
+	idExpected := uint(0)
+
+	assert.Equal(t, idExpected, result.ID, "If find non-existent task, your ID is 0")
+	assert.Equal(t, "Task not found", err.Error(), "If find non-existent task, have error")
+}
+
+func TestCreateTaskErrorValidate(t *testing.T){
+	r := SetupRoutes()
+	r.GET("/all", controller.FindAllTasks)
+
+	SetupDB()
+	var task model.Task = model.Task{Name : "",
+	Description: "task description mock", State: "PENDING"}
+	_, err := service.CreateTask(task)
+	
+	assert.Equal(t, "Name is empty", err.Error(), "If name is empty, throw error")
+}
