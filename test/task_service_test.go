@@ -4,21 +4,13 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/emanueldias01/todolist/controller"
 	"github.com/emanueldias01/todolist/database"
 	"github.com/emanueldias01/todolist/model"
 	"github.com/emanueldias01/todolist/service"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
 var ID int
-
-func SetupRoutes() *gin.Engine{
-	gin.SetMode(gin.TestMode)
-	r := gin.Default()
-	return r
-}
 
 func SetupDB(){
 	database.DBConect()
@@ -37,9 +29,6 @@ func MockDeleteTask(){
 }
 
 func TestFindAllTaskSucess(t *testing.T){
-	r := SetupRoutes()
-	r.GET("/all", controller.FindAllTasks)
-
 	SetupDB()
 	task := MockTask()
 	defer MockDeleteTask()
@@ -50,9 +39,6 @@ func TestFindAllTaskSucess(t *testing.T){
 }
 
 func TestFindTaskByIdSucess(t *testing.T){
-	r := SetupRoutes()
-	r.GET("/all", controller.FindAllTasks)
-
 	SetupDB()
 	expected := MockTask()
 	defer MockDeleteTask()
@@ -65,9 +51,6 @@ func TestFindTaskByIdSucess(t *testing.T){
 }
 
 func TestCreateTaskSucess(t *testing.T){
-	r := SetupRoutes()
-	r.GET("/all", controller.FindAllTasks)
-
 	SetupDB()
 	var task model.Task = model.Task{Name : "task name", Description: "task description mock", State: "PENDING"}
 	result,_  := service.CreateTask(task)
@@ -80,9 +63,6 @@ func TestCreateTaskSucess(t *testing.T){
 }
 
 func TestFindTaskByIdErrorNotFound(t *testing.T){
-	r := SetupRoutes()
-	r.GET("/all", controller.FindAllTasks)
-
 	SetupDB()
 
 	result,err := service.FindTaskById("123123123")
@@ -93,9 +73,6 @@ func TestFindTaskByIdErrorNotFound(t *testing.T){
 }
 
 func TestCreateTaskErrorValidate(t *testing.T){
-	r := SetupRoutes()
-	r.GET("/all", controller.FindAllTasks)
-
 	SetupDB()
 	var task model.Task = model.Task{Name : "",
 	Description: "task description mock", State: "PENDING"}
