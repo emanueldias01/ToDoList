@@ -105,3 +105,24 @@ func TestDeleteTask(t *testing.T){
 	assert.Equal(t, uint(0), result.ID)
 	assert.Equal(t, "Task not found", err.Error())
 }
+func TestMarkTaskDone(t *testing.T){
+	SetupDB()
+	MockTask()
+	defer MockDeleteTask()
+
+	task, err := service.MarkTaskDone(strconv.Itoa(ID))
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "DONE", task.State)
+}
+
+func TestMarktaskDOneErrorTaskNotFound(t *testing.T){
+	SetupDB()
+	MockTask()
+	defer MockDeleteTask()
+
+	task, err := service.MarkTaskDone(strconv.Itoa(777))
+
+	assert.Equal(t, "Task not found", err.Error())
+	assert.Equal(t, uint(0), task.ID)
+}

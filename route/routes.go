@@ -14,4 +14,5 @@ func HandleRequest(){
 	r.GET("/all", controller.FindAllTasks)
 	r.PUT("/:id", controller.UpdateTask)
 	r.DELETE("/:id", controller.DeleteTask)
+	r.PATCH("/done/:id", controller.UpdateTask)
 }
