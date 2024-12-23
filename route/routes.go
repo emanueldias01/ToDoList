@@ -12,4 +12,5 @@ func HandleRequest(){
 	r.POST("/createTask", controller.CreateTask)
 	r.GET("/:id", controller.FindTaskById)
 	r.GET("/all", controller.FindAllTasks)
+	r.PUT("/:id", controller.UpdateTask)
 }

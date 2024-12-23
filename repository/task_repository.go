@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"errors"
-
 	"github.com/emanueldias01/todolist/database"
 	"github.com/emanueldias01/todolist/model"
 )
@@ -12,21 +10,18 @@ func CreateTask(task model.Task) model.Task{
 	return task
 }
 
-func FindTaskById(id string) (model.Task, error){
+func FindTaskById(id string) (model.Task){
 	var task model.Task
-	var err error
-
 	database.DB.Find(&task, id)
-
-	if task.ID == 0{
-		err = errors.New("Task not found")
-	}
-
-	return task, err
+	return task
 }
 
 func FindAllTasks() []model.Task{
 	var list []model.Task
 	database.DB.Find(&list)
 	return list
+}
+
+func Update(taskRef model.Task, taskBody model.Task){
+	database.DB.Model(&taskRef).UpdateColumns(taskBody)
 }

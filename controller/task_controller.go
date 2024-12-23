@@ -53,3 +53,25 @@ func FindTaskById(c *gin.Context){
 func FindAllTasks(c *gin.Context){
 	c.JSON(http.StatusOK, service.FindAllTasks())
 }
+
+func UpdateTask(c *gin.Context){
+	var taskBody model.Task
+	id := c.Params.ByName("id")
+	if err := c.ShouldBindJSON(&taskBody); err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message" : err.Error(),
+		})
+		return
+	}
+
+	task, err := service.UpdateTask(taskBody, id)
+
+	if err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message" : err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, task)
+}
