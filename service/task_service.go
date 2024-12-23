@@ -45,3 +45,7 @@ func UpdateTask(taskBody model.Task, id string)(model.Task,error){
 	taskReturn := repository.FindTaskById(id)
 	return taskReturn, nil
 }
+
+func DateleteTask(id string){
+	repository.Delete(id)
+}

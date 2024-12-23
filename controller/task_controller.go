@@ -75,3 +75,9 @@ func UpdateTask(c *gin.Context){
 
 	c.JSON(http.StatusOK, task)
 }
+
+func DeleteTask(c *gin.Context){
+	id := c.Params.ByName("id")
+	service.DateleteTask(id)
+	c.JSON(http.StatusNoContent, nil)
+}

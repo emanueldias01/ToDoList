@@ -25,3 +25,8 @@ func FindAllTasks() []model.Task{
 func Update(taskRef model.Task, taskBody model.Task){
 	database.DB.Model(&taskRef).UpdateColumns(taskBody)
 }
+
+func Delete(id string){
+	var task model.Task
+	database.DB.Delete(&task, id)
+}
