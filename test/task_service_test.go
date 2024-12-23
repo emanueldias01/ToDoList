@@ -84,6 +84,7 @@ func TestCreateTaskErrorValidate(t *testing.T){
 func TestUpdateTask(t *testing.T){
 	SetupDB()
 	MockTask()
+	defer MockDeleteTask()
 	var taskBody model.Task = model.Task{Name : "Task name update",
 	 Description: "change description"}
 
@@ -92,4 +93,15 @@ func TestUpdateTask(t *testing.T){
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "Task name update", taskResult.Name)
 	assert.Equal(t, "change description", taskResult.Description)
+}
+func TestDeleteTask(t *testing.T){
+	SetupDB()
+	MockTask()
+	defer MockDeleteTask()
+	service.DeteleteTask(strconv.Itoa(ID))
+
+	result, err := service.FindTaskById(strconv.Itoa(ID))
+
+	assert.Equal(t, uint(0), result.ID)
+	assert.Equal(t, "Task not found", err.Error())
 }

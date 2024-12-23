@@ -78,6 +78,6 @@ func UpdateTask(c *gin.Context){
 
 func DeleteTask(c *gin.Context){
 	id := c.Params.ByName("id")
-	service.DateleteTask(id)
+	service.DeteleteTask(id)
 	c.JSON(http.StatusNoContent, nil)
 }

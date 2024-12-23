@@ -25,7 +25,8 @@ func FindTaskById(id string) (model.Task, error){
 	var err error
 	task := repository.FindTaskById(id)
 	if task.ID == 0{
-		err = errors.New("task not found")
+		err = errors.New("Task not found")
+		return model.Task{}, err
 	}
 	return task, err
 }
@@ -46,6 +47,6 @@ func UpdateTask(taskBody model.Task, id string)(model.Task,error){
 	return taskReturn, nil
 }
 
-func DateleteTask(id string){
+func DeteleteTask(id string){
 	repository.Delete(id)
 }
