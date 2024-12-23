@@ -7,7 +7,7 @@ import (
 	"github.com/emanueldias01/todolist/repository"
 )
 
-func CreateTask(task model.Task ) (model.Task, error){
+func CreateTask(task model.Task) (model.Task, error){
 
 	var err error
 
@@ -42,7 +42,6 @@ func UpdateTask(taskBody model.Task, id string)(model.Task,error){
 		err = errors.New("task not found")
 		return model.Task{}, err
 	}
-	taskBody.State = "PENDING"
 	repository.Update(taskRef, taskBody)
 	taskReturn := repository.FindTaskById(id)
 	return taskReturn, nil

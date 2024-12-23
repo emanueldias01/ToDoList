@@ -4,21 +4,29 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/emanueldias01/todolist/dto"
 	"github.com/emanueldias01/todolist/model"
 	"github.com/emanueldias01/todolist/service"
 	"github.com/gin-gonic/gin"
 )
 
 func CreateTask(c *gin.Context){
-	var task model.Task
+	var taskDto dto.TaskCreateDTO
 
-	if err := c.ShouldBindJSON(&task); err != nil{
+	if err := c.ShouldBindJSON(&taskDto); err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message" : err.Error(),
 		})
 	}
 
-	task, err := service.CreateTask(task)
+	var(
+		task model.Task
+		err error
+	)
+
+	task = model.Task{Name: taskDto.Name, Description: task.Description, Goal: taskDto.Goal}
+
+	task, err = service.CreateTask(task)
 
 	if err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -55,7 +63,7 @@ func FindAllTasks(c *gin.Context){
 }
 
 func UpdateTask(c *gin.Context){
-	var taskBody model.Task
+	var taskBody dto.TaskUpdateDTO
 	id := c.Params.ByName("id")
 	if err := c.ShouldBindJSON(&taskBody); err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -64,7 +72,12 @@ func UpdateTask(c *gin.Context){
 		return
 	}
 
-	task, err := service.UpdateTask(taskBody, id)
+	taskBodyModel := model.Task{
+		Name : taskBody.Name,
+		Description: taskBody.Description,
+	}
+
+	task, err := service.UpdateTask(taskBodyModel, id)
 
 	if err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{
