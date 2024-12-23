@@ -42,6 +42,7 @@ func UpdateTask(taskBody model.Task, id string)(model.Task,error){
 		err = errors.New("task not found")
 		return model.Task{}, err
 	}
+	taskBody.State = "PENDING"
 	repository.Update(taskRef, taskBody)
 	taskReturn := repository.FindTaskById(id)
 	return taskReturn, nil
@@ -49,4 +50,18 @@ func UpdateTask(taskBody model.Task, id string)(model.Task,error){
 
 func DeteleteTask(id string){
 	repository.Delete(id)
+}
+
+func MarkTaskDone(id string)(model.Task, error){
+	var err error
+	task := repository.FindTaskById(id)
+	
+	if task.ID == 0{
+		err = errors.New("Task not found")
+		return model.Task{}, err
+	}
+
+	task.State = "DONE"
+	repository.Save(task)
+	return task, nil
 }

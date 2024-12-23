@@ -30,3 +30,7 @@ func Delete(id string){
 	var task model.Task
 	database.DB.Delete(&task, id)
 }
+
+func Save(task model.Task){
+	database.DB.Save(&task)
+}

@@ -81,3 +81,17 @@ func DeleteTask(c *gin.Context){
 	service.DeteleteTask(id)
 	c.JSON(http.StatusNoContent, nil)
 }
+
+func MarkTaskDone(c *gin.Context){
+	id := c.Params.ByName("id")
+	task, err := service.MarkTaskDone(id)
+
+	if err != nil{
+		c.JSON(http.StatusNotFound, gin.H{
+			"message" : err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, task)
+}
