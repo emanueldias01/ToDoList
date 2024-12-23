@@ -80,3 +80,16 @@ func TestCreateTaskErrorValidate(t *testing.T){
 	
 	assert.Equal(t, "Name is empty", err.Error(), "If name is empty, throw error")
 }
+
+func TestUpdateTask(t *testing.T){
+	SetupDB()
+	MockTask()
+	var taskBody model.Task = model.Task{Name : "Task name update",
+	 Description: "change description"}
+
+	taskResult, err := service.UpdateTask(taskBody, strconv.Itoa(ID))
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "Task name update", taskResult.Name)
+	assert.Equal(t, "change description", taskResult.Description)
+}
