@@ -14,7 +14,7 @@ var(
 )
 
 func DBConect(){
-	strCon := "host=localhost user=root password=root dbname=ToDoList port=5432 sslmode=disable"
+	strCon := "host=postgres user=root password=root dbname=ToDoList port=5432 sslmode=disable"
 	DB, err = gorm.Open(postgres.Open(strCon))
 
 	if err != nil{

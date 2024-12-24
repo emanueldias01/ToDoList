@@ -3,13 +3,13 @@ version: '3.8'
 services:
   db:
     image: postgres:13
-    container_name: toDoList
+    container_name: postgres
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=ToDoList
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
@@ -21,12 +21,19 @@ services:
       - PGADMIN_DEFAULT_EMAIL=todolist@email.com
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
-      - "54321:80"
+      - 54321:80
     restart: always
     depends_on:
       - db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
