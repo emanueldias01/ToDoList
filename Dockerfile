@@ -1,6 +1,5 @@
-FROM golang:1.23.2
+FROM golang:1.23.2-alpine as build
 
-EXPOSE 8080
 
 WORKDIR /app
 
@@ -16,4 +15,14 @@ COPY ./go.mod /app/
 COPY ./go.sum /app/
 COPY ./main.go /app/
 
-CMD ["go", "run", "main.go"]
+RUN go build main.go
+
+FROM alpine:latest AS prod
+
+EXPOSE 8080
+
+WORKDIR /app
+
+COPY --from=build /app/main /app/
+
+CMD [ "./main" ]
